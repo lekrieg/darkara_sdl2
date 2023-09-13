@@ -31,7 +31,7 @@
 *.out
 *.app
 
-/Source/Abyss2d/.idea/
-/Source/Darkara/.idea/
-/Source/Lib/
-/Source/Temp/
+/Source/Abyss2d/.idea
+/Source/Darkara/.idea
+/Source/Lib
+/Source/Temp

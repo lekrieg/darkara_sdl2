@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Darkara", "Darkara.vcxproj", "{DE3376B7-5B73-4E1A-A473-403DF6701C1B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CD46F19F-DF2C-4C05-B8E0-36C30DC13FEF} = {CD46F19F-DF2C-4C05-B8E0-36C30DC13FEF}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Abyss2d", "..\Abyss2d\Abyss2d.vcxproj", "{CD46F19F-DF2C-4C05-B8E0-36C30DC13FEF}"
 EndProject

@@ -31,7 +31,9 @@
 *.out
 *.app
 
+EngineEditor/
+Game/
 Source/Abyss2d/.idea/
 Source/Darkara/.idea/
-Source/Lib
-Source/Temp
+Source/Lib/
+Source/Temp/

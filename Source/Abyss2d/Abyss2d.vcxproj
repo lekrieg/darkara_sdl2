@@ -52,6 +52,7 @@
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(ProjectDir)..\Lib\$(PlatformName)$(Configuration)\;%(AdditionalLibraryDirectories)</LibraryPath>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -59,6 +60,7 @@
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(ProjectDir)..\Lib\$(PlatformName)$(Configuration)\;%(AdditionalLibraryDirectories)</LibraryPath>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -179,6 +181,12 @@
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
   </ItemGroup>
+  <ItemDefinitionGroup>
+    <PostBuildEvent Condition="'$(OS)' != 'Unix'">
+      <Command>copy $(ProjectDir)..\Lib\$(PlatformName)$(Configuration)\Abyss2d.dll $(ProjectDir)..\..\Game\$(PlatformName)$(Configuration)\Abyss2d.dll</Command>
+      <Command>del $(ProjectDir)..\Lib\$(PlatformName)$(Configuration)\Abyss2d.dll</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

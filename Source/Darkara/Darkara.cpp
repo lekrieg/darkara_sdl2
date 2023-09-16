@@ -1,4 +1,4 @@
-#include <Core/Entry.h>
+#include <..\Abyss2d\Core\Entry.h>
 
 abyss2d::AppConfig abyss2d::CreateApplication()
 {

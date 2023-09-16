@@ -1,17 +1,15 @@
 ﻿// ////////////////////////
-// File: Application.h
-// Created at: 09 14, 2023
+// File: Test.h
+// Created at: 09 15, 2023
 // Description:
 // Modified by: Daniel Henrique
-// 09 14, 2023
+// 09 15, 2023
 // ////////////////////////
 
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
 #include "../Utils/CommonStuff.h"
-
-#include <string>
 
 namespace abyss2d
 {
@@ -28,4 +26,3 @@ namespace abyss2d
 }
 
 #endif
-

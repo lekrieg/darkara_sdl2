@@ -25,10 +25,10 @@ namespace abyss2d
 		{
 			std::cout << "sdl mixer initialized" << '\n';
 		}
-
+		
 		uuid64 uuid = generate_uuid();
 		std::cout << uuid;
-
+		
 		SDL_Quit();
 		IMG_Quit();
 		TTF_Quit();

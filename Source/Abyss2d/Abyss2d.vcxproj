@@ -50,7 +50,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\Lib\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(SolutionDir)..\3rdParty\tinyxml2;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(SolutionDir)..\3rdParty\tinyxml2;$(SolutionDir)..\3rdParty\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(ProjectDir)..\Lib\$(PlatformName)$(Configuration)\;%(AdditionalLibraryDirectories)</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
@@ -58,7 +58,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\Lib\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(SolutionDir)..\3rdParty\tinyxml2;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir);$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(SolutionDir)..\3rdParty\tinyxml2;$(SolutionDir)..\3rdParty\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(ProjectDir)..\Lib\$(PlatformName)$(Configuration)\;%(AdditionalLibraryDirectories)</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
@@ -71,6 +71,7 @@
       <PreprocessorDefinitions>_DEBUG;CPPDYNAMICLIBRARYTEMPLATE_EXPORTS;_WINDOWS;_USRDLL;ABYSS_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -90,6 +91,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>NDEBUG;CPPDYNAMICLIBRARYTEMPLATE_EXPORTS;_WINDOWS;_USRDLL;ABYSS_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,15 +103,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Dispatcher.h" />
     <ClInclude Include="Core\Entry.h" />
     <ClInclude Include="Core\Application.h" />
+    <ClInclude Include="Core\Event.h" />
+    <ClInclude Include="Core\Input.h" />
+    <ClInclude Include="Core\TypeId.h" />
     <ClInclude Include="Debugging\Logger.h" />
+    <ClInclude Include="Events\System.h" />
     <ClInclude Include="Multicore\CriticalSection.h" />
     <ClInclude Include="Utils\AbyssNonCopyable.h" />
     <ClInclude Include="Utils\CommonStuff.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Application.cpp" />
+    <ClCompile Include="Core\Input.cpp" />
     <ClCompile Include="Debugging\Logger.cpp" />
     <ClCompile Include="Utils\tinyxml2.cpp" />
   </ItemGroup>

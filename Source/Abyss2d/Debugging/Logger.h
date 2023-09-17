@@ -9,94 +9,110 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-	constexpr unsigned char LOG_FLAG_WRITE_TO_LOG_FILE = 1 << 0;
-	constexpr unsigned char LOG_FLAG_WRITE_TO_DEBUGGER = 1 << 1;
-
 	#include <string>
 
-	namespace Logger
+#include "../Utils/CommonStuff.h"
+
+enum LogFlag
 	{
-		class ErrorMessenger
-		{
-		private:
-			bool _enabled;
+		WriteToLogFile,
+		WriteToDebugger
+	};
 
-		public:
-			ErrorMessenger(void);
-			void Show(const std::string& errorMessage, bool isFatal, const char* funcName, const char* sourceFile, unsigned int lineNum);
-		};
-
+	namespace logger
+	{
 		void Init(const char* loggingConfigFilename);
-		void Destroy(void);
+		void Destroy();
 
-		void Log(const std::string& tag, const std::string& message, const char* funcName, const char* sourceFile,
-		         unsigned int lineNum);
-		void SetDisplayFlags(const std::string& tag, unsigned char flags);
+		template<typename ... Args>
+		void Log(const LogFlag flag, const std::string& tag, const std::string& message, const char* format, Args ... args);
 	}
 
-	#define ABYSS_FATAL(str) \
-		do \
-		{ \
-			static Logger::ErrorMessenger* pErrorMessenger = new(_NORMAL_BLOCK,__FILE__, __LINE__) Logger::ErrorMessenger; \
-			std::string s((str)); \
-			pErrorMessenger->Show(s, true, __FUNCTION__, __FILE__, __LINE__); \
-		} \
-		while (0) \
+	#define ABYSS_ASSERT assert
+	#define ABYSS_STATIC_ASSERT static_assert
 		
 	#ifdef _DEBUG
-
-		#define ABYSS_ERROR(str) \
-			do \
-			{ \
-				static Logger::ErrorMessenger* pErrorMessenger = new(_NORMAL_BLOCK, __FILE__, __LINE__) Logger::ErrorMessenger; \
-				std::string s((str)); \
-				pErrorMessenger->Show(s, false, __FUNCTION__, __FILE__, __LINE__); \
-			} \
-			while (0) \
-			
-		#define ABYSS_WARNING(str) \
-			do \
-			{ \
-				std::string s((str)); \
-				Logger::Log("WARNING", s, __FUNCTION__, __FILE__, __LINE__); \
-			} \
-			while (0) \
-			
-		#define ABYSS_INFO(str) \
-			do \
-			{ \
-				std::string s((str)); \
-				Logger::Log("INFO", s, nullptr, nullptr, 0); \
-			} \
-			while (0) \
-			
-		#define ABYSS_LOG(tag, str) \
-			do \
-			{ \
-				std::string s((str)); \
-				Logger::Log(tag, s, nullptr, nullptr, 0); \
-			} \
-			while (0) \
-			
-		#define ABYSS_ASSERT(expr) \
-			do \
-			{ \
-				if (!(expr)) \
-				{ \
-					static Logger::ErrorMessenger* pErrorMessenger = new(_NORMAL_BLOCK, __FILE__, __LINE__) Logger::ErrorMessenger; \
-					pErrorMessenger->Show(#expr, false, __FUNCTION__, __FILE__, __LINE__); \
-				} \
-			} \
-			while (0) \
+		#define ABYSS_LOG(tag, flag, message, ...) \
+		logger::Log(flag, tag, message, ##__VA_ARGS__);
 		
+		#define ABYSS_WARNING(flag, message, ...) ABYSS_LOG("warning", flag, message, ##__VA_ARGS__)
+		#define ABYSS_ERROR(flag, message, ...) ABYSS_LOG("error", flag, message, ##__VA_ARGS__)
+		#define ABYSS_INFO(flag, message, ...) ABYSS_LOG("info", flag, message, ##__VA_ARGS__)
 	#else
-
-		#define ABYSS_ERROR(str) do { (void)sizeof(str); } while(0) 
-		#define ABYSS_WARNING(str) do { (void)sizeof(str); } while(0) 
-		#define ABYSS_INFO(str) do { (void)sizeof(str); } while(0) 
-		#define ABYSS_LOG(tag, str) do { (void)sizeof(tag); (void)sizeof(str); } while(0) 
-		#define ABYSS_ASSERT(expr) do { (void)sizeof(expr); } while(0)
-
+		#define ABYSS_INFO
+		#define ABYSS_ERROR
+		#define ABYSS_WARNING
 	#endif
+
+// ----
+#include <cstdarg>
+
+class LogManager;
+static LogManager *pLogManager = nullptr;
+
+class LogManager
+{
+private:
+	std::string fileName;
+
+public:
+	LogManager() = default;
+	~LogManager() = default;
+	
+	void Init(const char* loggingConfigFilename);
+	template<typename ... Args>
+	void Log(const LogFlag flag, const std::string& tag, const std::string& message, const char* format, Args ... args);
+
+private:
+	template<typename ... Args>
+	void OutputFinalBufferToLogs(const LogFlag flag, const std::string& finalBuffer, const char* format, Args ... args);
+	template<typename ... Args>
+	void WriteToLogFile(const std::string& data, const char* format, Args ... args);
+	void GetOutputBuffer(std::string& outOutputBuffer, const std::string& tag, const std::string& message);
+};
+
+template<typename ... Args>
+void LogManager::Log(const LogFlag flag, const std::string& tag, const std::string& message, const char* format, Args ... args)
+{
+	std::string buffer;
+	GetOutputBuffer(buffer, tag, message);
+	OutputFinalBufferToLogs(flag, buffer, format, std::forward<Args>(args)...);
+}
+
+template<typename ... Args>
+void LogManager::OutputFinalBufferToLogs(const LogFlag flag, const std::string& finalBuffer, const char* format, Args ... args)
+{
+	if (flag == LogFlag::WriteToLogFile)
+	{
+		WriteToLogFile(finalBuffer, format, std::forward<Args>(args)...);
+	}
+	else if (flag == LogFlag::WriteToDebugger)
+	{
+		fprintf(stderr, finalBuffer.c_str(), std::forward<Args>(args)...);
+	}
+}
+
+template<typename ... Args>
+void LogManager::WriteToLogFile(const std::string& data, const char* format, Args ... args)
+{
+    FILE* pLogFile = nullptr;
+    fopen_s(&pLogFile, fileName.c_str(), "a+");
+    if (!pLogFile)
+    {
+    	return;
+    }
+
+    fprintf(pLogFile, data.c_str(), std::forward<Args>(args)...);
+	
+    fclose(pLogFile);
+}
+
+namespace logger {
+	template<typename ... Args>
+	void Log(const LogFlag flag, const std::string& tag, const std::string& message, const char* format, Args ... args)
+	{
+		pLogManager->Log(flag, tag, message, format, std::forward<Args>(args)...);
+	}
+}
 
 #endif // !LOGGER_H

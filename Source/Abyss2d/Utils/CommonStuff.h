@@ -9,9 +9,7 @@
 #ifndef COMMON_STUFF_H
 #define COMMON_STUFF_H
 
-#include "../Debugging/Logger.h"
-
-#include <set>
+#include <unordered_set>
 #include <random>
 #include <limits>
 #include <vector>
@@ -43,6 +41,28 @@
 		#endif
 	#endif
 
+
+	// logging macros
+	#if defined(_DEBUG)
+		#define ABYSS_LOG(level, message, ...) \
+		fprintf(stderr, "[%s] ", level); \
+		fprintf(stderr, message, ##__VA_ARGS__); \
+		fprintf(stderr, "\n");
+
+		#define ABYSS_WARNING(message, ...) ABYSS_LOG("warning", message, ##__VA_ARGS__)
+		#define ABYSS_ERROR(message, ...) ABYSS_LOG("error", message, ##__VA_ARGS__)
+		#define ABYSS_INFO(message, ...) ABYSS_LOG("info", message, ##__VA_ARGS__)
+	#else
+		#define ABYSS_INFO
+		#define ABYSS_ERROR	
+		#define ABYSS_WARNING
+	#endif
+
+	// runtime assertion
+	#define ABYSS_ASSERT assert
+	// static assertion
+	#define ABYSS_STATIC_ASSERT static_assert
+
 	#ifdef _MSC_VER
 		#define ABYSS_INLINE __forceinline
 		#define ABYSS_NO_INLINE __declspec(noinline)
@@ -51,7 +71,7 @@
 		#define ABYSS_NO_INLINE
 	#endif
 
-	#define ABYSS_DELETE(p) if((p) != nullptr) { delete (p); (p) = nullptr }
+	#define ABYSS_DELETE(p) if((p) != nullptr) { delete (p); (p) = nullptr; }
 	#define ABYSS_BIND(f) [this](auto&&... args) -> decltype(auto) \
 		{ return this->f(std::forward<decltype(args)>(args)...); }
 
@@ -69,7 +89,7 @@ namespace abyss2d
 	static std::mt19937_64 generator(randomizer());
 	static std::uniform_int_distribution<uuid64> distribution;
 	
-	ABYSS_API ABYSS_INLINE uuid64 generate_uuid()
+	ABYSS_API ABYSS_INLINE uuid64 GenerateUuid()
 	{
 		uuid64 uuid = INVALID_ID;
 		do

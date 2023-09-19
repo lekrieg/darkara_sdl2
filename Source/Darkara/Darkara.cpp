@@ -1,5 +1,7 @@
 #include <Core/Entry.h>
 
+#include "Scenes/TestScene.h"
+
 abyss2d::AppConfig abyss2d::CreateApplication()
 {
 	abyss2d::AppConfig config;
@@ -7,6 +9,9 @@ abyss2d::AppConfig abyss2d::CreateApplication()
 	config.title = "Test";
 	config.height = 300;
 	config.width = 300;
+
+	const auto scene = new TestScene;
+	SetScene(scene);
 	
 	return config;
 }

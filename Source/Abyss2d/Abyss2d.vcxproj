@@ -109,7 +109,13 @@
     <ClInclude Include="Core\Event.h" />
     <ClInclude Include="Core\Input.h" />
     <ClInclude Include="Core\TypeId.h" />
-    <ClInclude Include="Debugging\Logger.h" />
+    <ClInclude Include="Ecs\Components\Common.h" />
+    <ClInclude Include="Ecs\Ecs.h" />
+    <ClInclude Include="Ecs\Entity.h" />
+    <ClInclude Include="Ecs\Registry.h" />
+    <ClInclude Include="Ecs\EcsSystem.h" />
+    <ClInclude Include="Ecs\Scene.h" />
+    <ClInclude Include="Ecs\Systems\TestSystem.h" />
     <ClInclude Include="Events\System.h" />
     <ClInclude Include="Multicore\CriticalSection.h" />
     <ClInclude Include="Utils\AbyssNonCopyable.h" />
@@ -118,7 +124,6 @@
   <ItemGroup>
     <ClCompile Include="Core\Application.cpp" />
     <ClCompile Include="Core\Input.cpp" />
-    <ClCompile Include="Debugging\Logger.cpp" />
     <ClCompile Include="Utils\tinyxml2.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup>

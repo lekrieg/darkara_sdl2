@@ -1,7 +1,7 @@
 ﻿#include "Application.h"
 
 #include "Input.h"
-#include "../Events/System.h"
+#include "..\Events\EventSystem.h"
 #include "../Ecs/Scene.h"
 
 namespace abyss2d

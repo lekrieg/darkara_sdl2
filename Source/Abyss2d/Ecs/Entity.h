@@ -9,7 +9,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "Registry.h"
+#include "EcsRegistry.h"
 
 namespace abyss2d
 {
@@ -19,11 +19,11 @@ namespace abyss2d
 		{
 		private:
 			entityId _entity = INVALID_ID;
-			registry* _registry = nullptr;
+			EcsRegistry* _registry = nullptr;
 
 		public:
-			ABYSS_INLINE Entity(registry* r): _registry(r) { _entity = r->AddEntity(); }
-			ABYSS_INLINE Entity(entityId e, registry* r): _entity(e), _registry(r) { }
+			ABYSS_INLINE Entity(EcsRegistry* r): _registry(r) { _entity = r->AddEntity(); }
+			ABYSS_INLINE Entity(entityId e, EcsRegistry* r): _entity(e), _registry(r) { }
 			ABYSS_INLINE Entity() = default;
 			ABYSS_INLINE operator entityId() { return _entity; }
 

@@ -10,6 +10,7 @@
 #define ECS_SYSTEM_H
 
 #include "Entity.h"
+#include "../Assets/AssetRegistry.h"
 
 namespace abyss2d
 {
@@ -19,23 +20,25 @@ namespace abyss2d
 		{
 		protected:
 			SDL_Renderer* _renderer = nullptr;
-			registry* _registry = nullptr;
+			EcsRegistry* _ecsRegistry = nullptr;
+			AssetRegistry* _assetRegistry = nullptr;
 
 		public:
 			ABYSS_INLINE virtual ~EcsSystem() = default;
-			ABYSS_INLINE void Prepare(registry* rg, SDL_Renderer* rd)
+			ABYSS_INLINE void Prepare(EcsRegistry* rg, SDL_Renderer* rd, AssetRegistry* asr)
 			{
-				_registry = rg;
+				_ecsRegistry = rg;
 				_renderer = rd;
+				_assetRegistry = asr;
 			}
 
 			template<typename T>
 			ABYSS_INLINE auto View()
 			{
 				std::vector<Entity> entities;
-				for(auto& e : _registry->View<T>())
+				for(auto& e : _ecsRegistry->View<T>())
 				{
-					entities.push_back(Entity{ e, _registry });
+					entities.push_back(Entity{ e, _ecsRegistry });
 				}
 
 				return entities;

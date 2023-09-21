@@ -10,6 +10,7 @@
 #define SCENE_H
 
 #include "Systems/TestSystem.h"
+#include "../Assets/AssetRegistry.h"
 
 namespace abyss2d
 {
@@ -17,10 +18,11 @@ namespace abyss2d
 	{
 		struct Scene
 		{
-		private:
+		protected:
 			std::vector<ecs::EcsSystem*> _systems;
 			SDL_Renderer* _renderer = nullptr;
-			ecs::registry _registry;
+			EcsRegistry _ecsRegistry;
+			AssetRegistry _assetRegistry;
 
 		public:
 			virtual ~Scene()
@@ -30,7 +32,8 @@ namespace abyss2d
 					ABYSS_DELETE(s)
 				}
 
-				_registry.Clear();
+				_ecsRegistry.Clear();
+				_assetRegistry.Clear();
 				_systems.clear();
 			}
 			
@@ -41,18 +44,10 @@ namespace abyss2d
 
 			ABYSS_API ABYSS_INLINE ecs::Entity AddEntity(const std::string& name)
 			{
-				auto e = ecs::Entity(&_registry);
+				auto e = ecs::Entity(&_ecsRegistry);
 				e.AddComponent<InfoComponent>().name = name;
 				e.AddComponent<TransformComponent>();
 				return e;
-			}
-
-			ABYSS_API ABYSS_INLINE void StartSystems() const
-			{
-				for (const auto& s : _systems)
-				{
-					s->Start();
-				}
 			}
 
 			ABYSS_INLINE void Update(const float dt)
@@ -68,7 +63,7 @@ namespace abyss2d
 			{
 				ABYSS_STATIC_ASSERT(std::is_base_of_v<ecs::EcsSystem, T>);
 				auto newSystem = new T();
-				newSystem->Prepare(&_registry, _renderer);
+				newSystem->Prepare(&_ecsRegistry, _renderer, &_assetRegistry);
 				_systems.push_back(newSystem);
 			}
 

@@ -35,7 +35,7 @@ namespace abyss2d::ecs
 
 		ABYSS_INLINE entityId AddEntity()
 		{
-			entityId entity = (++_nextId);
+			entityId entity = _nextId++;
 			_signatures[entity] = signature();
 			return entity;
 		}
@@ -102,7 +102,7 @@ namespace abyss2d::ecs
 		ABYSS_INLINE void RemoveComponent(entityId e)
 		{
 			_signatures.at(e).erase(TypeId<T>());
-			GetComponentArray<T>()->erase(e);
+			GetComponentArray<T>()->Erase(e);
 		}
 
 		template <typename T>

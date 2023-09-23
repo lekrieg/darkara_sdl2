@@ -9,8 +9,6 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "../Utils/CommonStuff.h"
-
 #include "Asset.h"
 
 namespace abyss2d
@@ -27,7 +25,7 @@ namespace abyss2d
 	{
 		Texture instance;
 		ABYSS_INLINE TextureAsset() = default;
-		ABYSS_INLINE ~TextureAsset() override
+		ABYSS_INLINE ~TextureAsset()
 		{
 			SDL_DestroyTexture(instance.data);
 		}

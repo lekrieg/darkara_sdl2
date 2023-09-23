@@ -33,7 +33,7 @@ namespace abyss2d
 			glm::vec2 scale = glm::vec2(1.0f);
 			float rotation = 0.0f;
 
-			ABYSS_INLINE TransformComponent(const TransformComponent& ic) = default;
+			ABYSS_INLINE TransformComponent(const TransformComponent& tc) = default;
 			ABYSS_INLINE TransformComponent() = default;
 		};
 	}

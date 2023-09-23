@@ -11,8 +11,6 @@
 
 #include "../Utils/CommonStuff.h"
 
-#include <cstdint>
-
 namespace abyss2d
 {
 	using assetTypeId = uint32_t;

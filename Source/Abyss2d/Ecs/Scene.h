@@ -9,8 +9,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "Systems/TestSystem.h"
-#include "../Assets/AssetRegistry.h"
+#include "EcsSystem.h"
 
 namespace abyss2d
 {
@@ -33,7 +32,7 @@ namespace abyss2d
 				}
 
 				_ecsRegistry.Clear();
-				_assetRegistry.Clear();
+				// _assetRegistry.Clear();
 				_systems.clear();
 			}
 			
@@ -42,7 +41,7 @@ namespace abyss2d
 				_renderer = renderer;
 			}
 
-			ABYSS_API ABYSS_INLINE ecs::Entity AddEntity(const std::string& name)
+			ABYSS_INLINE ecs::Entity AddEntity(const std::string& name)
 			{
 				auto e = ecs::Entity(&_ecsRegistry);
 				e.AddComponent<InfoComponent>().name = name;

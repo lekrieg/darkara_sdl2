@@ -10,7 +10,6 @@
 #define TEST_SYSTEM_H
 
 #include "../EcsSystem.h"
-#include "../Components/Common.h"
 
 namespace abyss2d
 {

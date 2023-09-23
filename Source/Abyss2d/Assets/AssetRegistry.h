@@ -9,9 +9,7 @@
 #ifndef ASSET_REGISTRY_H
 #define ASSET_REGISTRY_H
 
-#include "../Utils/CommonStuff.h"
-
-#include "Asset.h"
+#include "Texture.h"
 #include "../Core/TypeId.h"
 
 namespace abyss2d
@@ -22,6 +20,28 @@ namespace abyss2d
 		std::unordered_map<assetTypeId, std::vector<Asset*>> _data;
 
 	public:
+		ABYSS_INLINE AssetRegistry() = default;
+		
+		ABYSS_INLINE TextureAsset* LoadTexture(const std::string& src, const std::string& name, SDL_Renderer* renderer)
+		{
+			Texture texture;
+			texture.data = IMG_LoadTexture(renderer, src.c_str());
+			texture.fileName = src;
+
+			if(!texture.data)
+			{
+				ABYSS_ERROR("%s", IMG_GetError())
+				return nullptr;
+			}
+
+			SDL_QueryTexture(texture.data, nullptr, nullptr, &texture.width, &texture.height);
+			const auto asset = new TextureAsset();
+			asset->instance = texture;
+			asset->name = name;
+			_data[TypeId<TextureAsset>()].push_back(asset);
+			return asset;
+		}
+		
 		ABYSS_INLINE void Clear()
 		{
 			for(auto&[_, list] : _data)
@@ -78,7 +98,7 @@ namespace abyss2d
 		}
 
 		template <typename T>
-		T* Get(const std::string name)
+		T* Get(const std::string& name)
 		{
 			assetId id = GetId<T>(name);
 			ABYSS_STATIC_ASSERT(std::is_base_of_v<Asset, T>);

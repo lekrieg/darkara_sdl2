@@ -26,7 +26,7 @@ namespace abyss2d
 	{
 		Font instance;
 		ABYSS_INLINE FontAsset() = default;
-		ABYSS_INLINE ~FontAsset() override
+		ABYSS_INLINE ~FontAsset()
 		{
 			TTF_CloseFont(instance.data);
 		}

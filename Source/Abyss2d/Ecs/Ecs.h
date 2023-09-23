@@ -47,7 +47,7 @@ namespace abyss2d
 				if (Exits(e)) { return Get(e); }
 				_data.push_back(ArrayEntry(e, data));
 				return _data.back().data;			
-			}	
+			}
 
 			ABYSS_INLINE void Erase(entityId e) override
 			{	

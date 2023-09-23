@@ -26,7 +26,7 @@ namespace abyss2d
 		AudioClip instance;
 
 		ABYSS_INLINE AudioAsset() = default;
-		ABYSS_INLINE ~AudioAsset() override
+		ABYSS_INLINE ~AudioAsset()
 		{
 			Mix_FreeChunk(instance.data);
 		}

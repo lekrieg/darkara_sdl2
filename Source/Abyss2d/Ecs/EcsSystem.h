@@ -11,6 +11,8 @@
 
 #include "Entity.h"
 #include "../Assets/AssetRegistry.h"
+#include "Components/Common.h"
+#include "Components/Graphics.h"
 
 namespace abyss2d
 {
@@ -38,13 +40,12 @@ namespace abyss2d
 				std::vector<Entity> entities;
 				for(auto& e : _ecsRegistry->View<T>())
 				{
-					entities.push_back(Entity{ e, _ecsRegistry });
+					entities.push_back(Entity(e, _ecsRegistry));
 				}
-
 				return entities;
 			}
 
-			ABYSS_INLINE virtual void Update(float) {}
+			ABYSS_INLINE virtual void Update(float dt) {}
 			ABYSS_INLINE virtual void Start() {}
 		};
 	}

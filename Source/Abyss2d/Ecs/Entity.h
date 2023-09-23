@@ -27,25 +27,25 @@ namespace abyss2d
 			ABYSS_INLINE Entity() = default;
 			ABYSS_INLINE operator entityId() { return _entity; }
 
-			template<typename  T, typename... Args>
+			template<typename T, typename... Args>
 			ABYSS_INLINE T& AddComponent(Args&&... args)
 			{
 				return _registry->AddComponent<T>(_entity, std::forward<Args>(args)...);
 			}
 
-			template<typename  T>
+			template<typename T>
 			ABYSS_INLINE T& GetComponent()
 			{
 				return _registry->GetComponent<T>(_entity);
 			}
 
-			template<typename  T>
+			template<typename T>
 			ABYSS_INLINE T& RemoveComponent()
 			{
 				return _registry->RemoveComponent<T>(_entity);
 			}
 			
-			template<typename  T>
+			template<typename T>
 			ABYSS_INLINE T& HasComponent()
 			{
 				return _registry->HasComponent<T>(_entity);

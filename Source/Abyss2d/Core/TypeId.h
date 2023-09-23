@@ -9,8 +9,6 @@
 #ifndef TYPE_ID_H
 #define TYPE_ID_H
 
-#include "../Utils/CommonStuff.h"
-
 namespace abyss2d
 {
 	ABYSS_INLINE uint32_t GetUniqueTypeId()
@@ -19,7 +17,7 @@ namespace abyss2d
 		return type++;
 	}
 
-	template<typename T>
+	template <typename T>
 	ABYSS_INLINE uint32_t TypeId()
 	{
 		static const uint32_t type = GetUniqueTypeId();

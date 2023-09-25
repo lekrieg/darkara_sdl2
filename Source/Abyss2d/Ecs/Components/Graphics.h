@@ -34,6 +34,15 @@ namespace abyss2d
 			ABYSS_INLINE TextComponent(const TextComponent& tc) = default;
 			ABYSS_INLINE TextComponent() = default;
 		};
+
+		struct AnimationComponent
+		{
+			SDL_RendererFlip flip = SDL_FLIP_NONE;
+			assetId animation = INVALID_ID;
+
+			ABYSS_INLINE AnimationComponent() = default;
+			ABYSS_INLINE AnimationComponent(const AnimationComponent& sc) = default;
+		};
 	}
 }
 

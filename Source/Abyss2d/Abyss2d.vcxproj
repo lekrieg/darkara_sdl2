@@ -123,6 +123,7 @@
     <ClInclude Include="Ecs\EcsRegistry.h" />
     <ClInclude Include="Ecs\EcsSystem.h" />
     <ClInclude Include="Ecs\Scene.h" />
+    <ClInclude Include="Ecs\Systems\FrameAnimationSystem.h" />
     <ClInclude Include="Ecs\Systems\SpriteRendererSystem.h" />
     <ClInclude Include="Ecs\Systems\TestSystem.h" />
     <ClInclude Include="Ecs\Systems\TextRendererSystem.h" />

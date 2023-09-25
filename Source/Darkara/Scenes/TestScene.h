@@ -15,6 +15,7 @@
 // #include "Assets/Texture.h"
 #include "Ecs/Systems/SpriteRendererSystem.h"
 #include "Ecs/Systems/TextRendererSystem.h"
+#include "Ecs/Systems/FrameAnimationSystem.h"
 
 struct TestScene : abyss2d::ecs::Scene
 {
@@ -22,6 +23,7 @@ struct TestScene : abyss2d::ecs::Scene
 	{
 		RegisterSystem<abyss2d::ecs::SpriteRendererSystem>();
 		RegisterSystem<abyss2d::ecs::TextRendererSystem>();
+		RegisterSystem<abyss2d::ecs::FrameAnimationSystem>();
 	}
 	
 	void Start() override
@@ -37,16 +39,32 @@ struct TestScene : abyss2d::ecs::Scene
 		// anim->instance.speed = 200;
 		
 		// auto texture = _assetRegistry.LoadTexture("Command_4x.png", "Test", _renderer);
-		auto texture = _assetRegistry.LoadTexture("Assets/Command_4x.png", "Test", _renderer);
-		auto font = _assetRegistry.LoadFont("Assets/Avenixel-Regular.ttf", "ttf", 30);
-		
-		auto entity = AddEntity("Entity");
-		entity.AddComponent<abyss2d::ecs::SpriteComponent>().sprite = texture->id;
+		// auto texture = _assetRegistry.LoadTexture("Assets/Command_4x.png", "Test", _renderer);
+		// auto font = _assetRegistry.LoadFont("Assets/Avenixel-Regular.ttf", "ttf", 30);
+		//
+		// auto entity = AddEntity("Entity");
+		// entity.AddComponent<abyss2d::ecs::SpriteComponent>().sprite = texture->id;
+		//
+		// auto entity2 = AddEntity("fontTest");
+		// auto& text = entity2.AddComponent<abyss2d::ecs::TextComponent>();
+		// text.text = "Hello world!";
+		// text.font = font->id;
 
-		auto entity2 = AddEntity("fontTest");
-		auto& text = entity2.AddComponent<abyss2d::ecs::TextComponent>();
-		text.text = "Hello world!";
-		text.font = font->id;
+		// TODO: criar um metodo que le um sprite sheet e carrega a lista de imagens
+		// TODO: arrumar forma de rodar a animacao com alguma acao
+		auto frame1 = _assetRegistry.LoadTexture("Assets/Asteroids01.png", "Frame1", _renderer);
+		auto frame2 = _assetRegistry.LoadTexture("Assets/Asteroids02.png", "Frame2", _renderer);
+		auto frame3 = _assetRegistry.LoadTexture("Assets/Asteroids03.png", "Frame3", _renderer);
+
+		auto animation = _assetRegistry.Add<abyss2d::AnimationAsset>("Asteroid");
+		animation->instance.frames.push_back(frame1->id);
+		animation->instance.frames.push_back(frame2->id);
+		animation->instance.frames.push_back(frame3->id);
+		animation->instance.speed = 300;
+
+		auto entity = AddEntity("Entity");
+		auto& a = entity.AddComponent<abyss2d::ecs::AnimationComponent>();
+		a.animation = animation->id;
 		
 		for (const auto& s : _systems)
 		{

@@ -14,12 +14,14 @@
 // #include "Assets/Animation.h"
 // #include "Assets/Texture.h"
 #include "Ecs/Systems/SpriteRendererSystem.h"
+#include "Ecs/Systems/TextRendererSystem.h"
 
 struct TestScene : abyss2d::ecs::Scene
 {
-	TestScene()
+	void RegisterSystems() override
 	{
 		RegisterSystem<abyss2d::ecs::SpriteRendererSystem>();
+		RegisterSystem<abyss2d::ecs::TextRendererSystem>();
 	}
 	
 	void Start() override
@@ -34,9 +36,17 @@ struct TestScene : abyss2d::ecs::Scene
 		// anim->instance.frames.push_back(frame2->id);
 		// anim->instance.speed = 200;
 		
-		auto texture = _assetRegistry.LoadTexture("Command_4x.png", "Test", abyss2d::GetRenderer());
+		// auto texture = _assetRegistry.LoadTexture("Command_4x.png", "Test", _renderer);
+		auto texture = _assetRegistry.LoadTexture("Assets/Command_4x.png", "Test", _renderer);
+		auto font = _assetRegistry.LoadFont("Assets/Avenixel-Regular.ttf", "ttf", 30);
+		
 		auto entity = AddEntity("Entity");
 		entity.AddComponent<abyss2d::ecs::SpriteComponent>().sprite = texture->id;
+
+		auto entity2 = AddEntity("fontTest");
+		auto& text = entity2.AddComponent<abyss2d::ecs::TextComponent>();
+		text.text = "Hello world!";
+		text.font = font->id;
 		
 		for (const auto& s : _systems)
 		{

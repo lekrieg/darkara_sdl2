@@ -51,12 +51,15 @@ namespace abyss2d
 
 			ABYSS_INLINE void Update(const float dt)
 			{
+				// SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 				for(auto& s : _systems)
 				{
 					s->Update(dt);
 				}
 			}
 
+			virtual void RegisterSystems() = 0;
+			
 			template <typename T>
 			void RegisterSystem()
 			{

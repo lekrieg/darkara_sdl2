@@ -23,6 +23,17 @@ namespace abyss2d
 			ABYSS_INLINE SpriteComponent() = default;
 			ABYSS_INLINE SpriteComponent(const SpriteComponent& sc) = default;
 		};
+
+		struct TextComponent
+		{
+			SDL_RendererFlip flip = SDL_FLIP_NONE;
+			SDL_Color color = { 0, 0, 0, 255 };
+			assetId font = INVALID_ID;
+			std::string text;
+
+			ABYSS_INLINE TextComponent(const TextComponent& tc) = default;
+			ABYSS_INLINE TextComponent() = default;
+		};
 	}
 }
 

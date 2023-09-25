@@ -27,7 +27,6 @@ namespace abyss2d
 	};
 
 	ABYSS_API void SetScene(ecs::Scene* s);
-	ABYSS_API SDL_Renderer* GetRenderer();
 	AppConfig CreateApplication();
 	ABYSS_API void RunApplication(const AppConfig& config);
 }

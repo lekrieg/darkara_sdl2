@@ -10,6 +10,7 @@
 #define ASSET_REGISTRY_H
 
 #include "Texture.h"
+#include "Font.h"
 #include "../Core/TypeId.h"
 
 namespace abyss2d
@@ -39,6 +40,27 @@ namespace abyss2d
 			asset->instance = texture;
 			asset->name = name;
 			_data[TypeId<TextureAsset>()].push_back(asset);
+			return asset;
+		}
+
+		ABYSS_INLINE FontAsset* LoadFont(const std::string& src, const std::string& name, int size)
+		{
+			Font font;
+			font.data = TTF_OpenFont(src.c_str(), size);
+			font.fileName = src;
+			font.size = size;
+
+			if(!font.data)
+			{
+				ABYSS_ERROR("%s", TTF_GetError())
+				return nullptr;
+			}
+
+			auto asset = new FontAsset();
+			asset->instance = font;
+			asset->name = name;
+
+			_data[TypeId<FontAsset>()].push_back(asset);
 			return asset;
 		}
 		

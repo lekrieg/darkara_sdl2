@@ -12,6 +12,7 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Animation.h"
+#include "Tilemap.h"
 #include "../Core/TypeId.h"
 
 namespace abyss2d

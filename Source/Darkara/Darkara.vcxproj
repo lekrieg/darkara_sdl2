@@ -52,7 +52,7 @@
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir);$(IncludePath);$(SolutionDir)..\Abyss2d\;$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(SolutionDir)..\3rdParty\tinyxml2;$(SolutionDir)..\3rdParty\glm;</IncludePath>
+    <IncludePath>$(SolutionDir);$(IncludePath);$(SolutionDir)..\Abyss2d\;$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(SolutionDir)..\3rdParty\tinyxml2;$(SolutionDir)..\3rdParty\glm;$(SolutionDir)..\3rdParty\box2d\include;</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <ReferencePath>$(VC_ReferencesPath_x64);</ReferencePath>
   </PropertyGroup>
@@ -63,7 +63,7 @@
     <TargetName>$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
     <ExtensionsToDeleteOnClean>$(ExtensionsToDeleteOnClean);$(TargetPath).manifest;$(OutDir)$(TargetName).tlb;$(OutDir)$(TargetName).pdb;$(TargetPath);$(OutDir)$(TargetName).bsc;$(OutDir)$(TargetName).ilk;$(TargetPath).intermediate.manifest;$(IntermediateOutputPath)$(CleanFile)</ExtensionsToDeleteOnClean>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir);$(IncludePath);$(SolutionDir)..\Abyss2d\;$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(SolutionDir)..\3rdParty\tinyxml2;$(SolutionDir)..\3rdParty\glm;</IncludePath>
+    <IncludePath>$(SolutionDir);$(IncludePath);$(SolutionDir)..\Abyss2d\;$(SolutionDir)..\3rdParty\SDL2\include;$(SolutionDir)..\3rdParty\SDL2_image\include;$(SolutionDir)..\3rdParty\SDL2_mixer\include;$(SolutionDir)..\3rdParty\SDL2_ttf\include;$(SolutionDir)..\3rdParty\tinyxml2;$(SolutionDir)..\3rdParty\glm;$(SolutionDir)..\3rdParty\box2d\include;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -81,7 +81,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(ProjectDir)..\Lib\$(PlatformName)$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;abyss2d.lib;sdl2.lib;sdl2_image.lib;sdl2_mixer.lib;sdl2_ttf.lib;sdl2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;abyss2d.lib;sdl2.lib;sdl2_image.lib;sdl2_mixer.lib;sdl2_ttf.lib;sdl2main.lib;box2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
     </Link>
@@ -106,7 +106,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(ProjectDir)..\Lib\$(PlatformName)$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;abyss2d.lib;sdl2.lib;sdl2_image.lib;sdl2_mixer.lib;sdl2_ttf.lib;sdl2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;abyss2d.lib;sdl2.lib;sdl2_image.lib;sdl2_mixer.lib;sdl2_ttf.lib;sdl2main.lib;box2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
     </Link>

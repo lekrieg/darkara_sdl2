@@ -3,7 +3,7 @@
 // Created at: 09 17, 2023
 // Description:
 // Modified by: Daniel Henrique
-// 09 17, 2023
+// 10, 12, 2023
 // ////////////////////////
 
 #ifndef ECS_REGISTRY_H
@@ -27,10 +27,10 @@ namespace abyss2d::ecs
 			{
 				ABYSS_DELETE(a)
 			}
-			
-      		_components.clear();
-      		_signatures.clear();
-      		_nextId = INVALID_ID;
+
+			_components.clear();
+			_signatures.clear();
+			_nextId = INVALID_ID;
 		}
 
 		ABYSS_INLINE entityId AddEntity()
@@ -75,7 +75,8 @@ namespace abyss2d::ecs
 			componentId type = TypeId<T>();
 			if (_components.count(type))
 			{
-				return static_cast<ComponentArray<T>*>(_components.at(type));
+				auto test = static_cast<ComponentArray<T>*>(_components.at(type));
+				return test;
 			}
 			auto array = new ComponentArray<T>();
 			_components[type] = array;
@@ -86,7 +87,9 @@ namespace abyss2d::ecs
 		ABYSS_INLINE T& GetComponent(entityId e)
 		{
 			ABYSS_ASSERT(_signatures.count(e) && "Out of range!");
-			return GetComponentArray<T>()->Get(e);
+			auto test1 = GetComponentArray<T>();
+			auto& test = test1->Get(e);
+			return test;
 		}
 
 		template <typename T, typename... Args>

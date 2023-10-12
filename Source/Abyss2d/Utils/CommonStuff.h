@@ -3,7 +3,7 @@
 // Created at: 09 14, 2023
 // Description:
 // Modified by: Daniel Henrique
-// 09 14, 2023
+// 10, 04, 2023
 // ////////////////////////
 
 #ifndef COMMON_STUFF_H
@@ -31,48 +31,53 @@
 #include <SDL_mixer.h>
 #include <SDL_image.h>
 
-	#ifdef ABYSS_EXPORT
-		#ifdef _MSC_VER
-			#define ABYSS_API __declspec(dllexport)
-		#endif
-	#else
-		#ifdef _MSC_VER
+#include <b2_world.h>
+#include <b2_body.h>
+#include <b2_polygon_shape.h>
+#include <b2_fixture.h>
+
+#ifdef ABYSS_EXPORT
+#ifdef _MSC_VER
+#define ABYSS_API __declspec(dllexport)
+#endif
+#else
+#ifdef _MSC_VER
 			#define ABYSS_API __declspec(dllimport)
-		#endif
-	#endif
+#endif
+#endif
 
 
-	// logging macros
-	#if defined(_DEBUG)
-		#define ABYSS_LOG(level, message, ...) \
+// logging macros
+#if defined(_DEBUG)
+#define ABYSS_LOG(level, message, ...) \
 		fprintf(stderr, "[%s] ", level); \
 		fprintf(stderr, message, ##__VA_ARGS__); \
 		fprintf(stderr, "\n");
 
-		#define ABYSS_WARNING(message, ...) ABYSS_LOG("warning", message, ##__VA_ARGS__)
-		#define ABYSS_ERROR(message, ...) ABYSS_LOG("error", message, ##__VA_ARGS__)
-		#define ABYSS_INFO(message, ...) ABYSS_LOG("info", message, ##__VA_ARGS__)
-	#else
+#define ABYSS_WARNING(message, ...) ABYSS_LOG("warning", message, ##__VA_ARGS__)
+#define ABYSS_ERROR(message, ...) ABYSS_LOG("error", message, ##__VA_ARGS__)
+#define ABYSS_INFO(message, ...) ABYSS_LOG("info", message, ##__VA_ARGS__)
+#else
 		#define ABYSS_INFO
 		#define ABYSS_ERROR	
 		#define ABYSS_WARNING
-	#endif
+#endif
 
-	// runtime assertion
-	#define ABYSS_ASSERT assert
-	// static assertion
-	#define ABYSS_STATIC_ASSERT static_assert
+// runtime assertion
+#define ABYSS_ASSERT assert
+// static assertion
+#define ABYSS_STATIC_ASSERT static_assert
 
-	#ifdef _MSC_VER
-		#define ABYSS_INLINE __forceinline
-		#define ABYSS_NO_INLINE __declspec(noinline)
-	#else
+#ifdef _MSC_VER
+#define ABYSS_INLINE __forceinline
+#define ABYSS_NO_INLINE __declspec(noinline)
+#else
 		#define ABYSS_INLINE inline
 		#define ABYSS_NO_INLINE
-	#endif
+#endif
 
-	#define ABYSS_DELETE(p) if((p) != nullptr) { delete (p); (p) = nullptr; }
-	#define ABYSS_BIND(f) [this](auto&&... args) -> decltype(auto) \
+#define ABYSS_DELETE(p) if((p) != nullptr) { delete (p); (p) = nullptr; }
+#define ABYSS_BIND(f) [this](auto&&... args) -> decltype(auto) \
 		{ return this->f(std::forward<decltype(args)>(args)...); }
 
 #define get_ticks() SDL_GetTicks() / 1000.0f
@@ -81,6 +86,9 @@
 #define INVALID_ID 0
 #define MAX_DELTA_TIME 0.05f
 
+#define dynamicBody b2_dynamicBody
+#define staticBody b2_staticBody
+
 namespace abyss2d
 {
 	using uuid64 = std::size_t;
@@ -88,7 +96,7 @@ namespace abyss2d
 	static std::random_device randomizer;
 	static std::mt19937_64 generator(randomizer());
 	static std::uniform_int_distribution<uuid64> distribution;
-	
+
 	ABYSS_API ABYSS_INLINE uuid64 GenerateUuid()
 	{
 		uuid64 uuid = INVALID_ID;

@@ -43,6 +43,26 @@ namespace abyss2d
 			ABYSS_INLINE AnimationComponent() = default;
 			ABYSS_INLINE AnimationComponent(const AnimationComponent& sc) = default;
 		};
+
+		struct TileMapComponent
+		{
+			assetId tileMap = INVALID_ID;
+
+			ABYSS_INLINE TileMapComponent() = default;
+			ABYSS_INLINE TileMapComponent(const TileMapComponent& sc) = default;
+		};
+
+		struct TileComponent
+		{
+			SDL_RendererFlip flip = SDL_FLIP_NONE;
+			assetId tileMap = INVALID_ID;
+			assetId tileSet = INVALID_ID;
+			float offset_x = 0, offset_y = 0;
+			int row = 0, col = 0;
+
+			ABYSS_INLINE TileComponent() = default;
+			ABYSS_INLINE TileComponent(const TileComponent& sc) = default;
+		};
 	}
 }
 

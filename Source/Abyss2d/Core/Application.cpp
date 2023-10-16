@@ -3,7 +3,7 @@
 // Created at: 09 15, 2023
 // Description:
 // Modified by: Daniel Henrique
-// 09, 30, 2023
+// 10, 16, 2023
 // ////////////////////////
 
 #include "Application.h"
@@ -91,7 +91,6 @@ namespace abyss2d
 
 		scene->SetRenderer(renderer);
 		scene->SetB2World(&world);
-		scene->RegisterSystems();
 		scene->Start();
 
 		while (isRunning)

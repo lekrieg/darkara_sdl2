@@ -3,7 +3,7 @@
 // Created at: 09 14, 2023
 // Description:
 // Modified by: Daniel Henrique
-// 10, 04, 2023
+// 10, 12, 2023
 // ////////////////////////
 
 #ifndef COMMON_STUFF_H
@@ -97,7 +97,7 @@ namespace abyss2d
 	static std::mt19937_64 generator(randomizer());
 	static std::uniform_int_distribution<uuid64> distribution;
 
-	ABYSS_API ABYSS_INLINE uuid64 GenerateUuid()
+	ABYSS_INLINE uuid64 GenerateUuid()
 	{
 		uuid64 uuid = INVALID_ID;
 		do

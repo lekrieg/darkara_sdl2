@@ -13,7 +13,7 @@
 #include "../Assets/AssetRegistry.h"
 #include "Components/Common.h"
 #include "Components/Graphics.h"
-// #include "Components/Physics.h"
+#include "Components/Physics.h"
 
 namespace abyss2d::ecs
 {

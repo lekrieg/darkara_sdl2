@@ -118,12 +118,14 @@
         <ClInclude Include="Core\TypeId.h"/>
         <ClInclude Include="Ecs\Components\Common.h"/>
         <ClInclude Include="Ecs\Components\Graphics.h"/>
+        <ClInclude Include="Ecs\Components\Physics.h"/>
         <ClInclude Include="Ecs\Ecs.h"/>
         <ClInclude Include="Ecs\Entity.h"/>
         <ClInclude Include="Ecs\EcsRegistry.h"/>
         <ClInclude Include="Ecs\EcsSystem.h"/>
         <ClInclude Include="Ecs\Scene.h"/>
         <ClInclude Include="Ecs\Systems\FrameAnimationSystem.h"/>
+        <ClInclude Include="Ecs\Systems\RigidbodySystem.h"/>
         <ClInclude Include="Ecs\Systems\SpriteRendererSystem.h"/>
         <ClInclude Include="Ecs\Systems\TestSystem.h"/>
         <ClInclude Include="Ecs\Systems\TextRendererSystem.h"/>

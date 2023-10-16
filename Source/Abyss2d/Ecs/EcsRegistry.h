@@ -35,7 +35,7 @@ namespace abyss2d::ecs
 
 		ABYSS_INLINE entityId AddEntity()
 		{
-			entityId entity = _nextId++;
+			entityId entity = ++_nextId;
 			_signatures[entity] = signature();
 			return entity;
 		}

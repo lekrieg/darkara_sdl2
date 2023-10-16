@@ -3,35 +3,70 @@
 // Created at: 09 19, 2023
 // Description:
 // Modified by: Daniel Henrique
-// 10, 12, 2023
+// 10, 16, 2023
 // ////////////////////////
 
 #ifndef TEST_SCENE_H
 #define TEST_SCENE_H
 
-#include <Ecs/Scene.h>
+#include <Ecs/EcsSystem.h>
 
 // #include "Assets/Animation.h"
 // #include "Assets/Texture.h"
 #include "Ecs/Systems/SpriteRendererSystem.h"
-#include "Ecs/Systems/TextRendererSystem.h"
-#include "Ecs/Systems/FrameAnimationSystem.h"
-#include "Ecs/Systems/TileMapRendererSystem.h"
-// #include "Ecs/Systems/RigidbodySystem.h"
+// #include "Ecs/Systems/TextRendererSystem.h"
+// #include "Ecs/Systems/FrameAnimationSystem.h"
+// #include "Ecs/Systems/TileMapRendererSystem.h"
+#include "Ecs/Scene.h"
+#include "Ecs/Systems/RigidbodySystem.h"
 
 struct TestScene : abyss2d::ecs::Scene
 {
-	void RegisterSystems() override
+protected:
+	std::vector<abyss2d::ecs::EcsSystem*> _systems;
+	abyss2d::ecs::EcsRegistry _ecsRegistry;
+	abyss2d::AssetRegistry _assetRegistry;
+
+public:
+	TestScene() = default;
+
+	~TestScene() override
 	{
-		RegisterSystem<abyss2d::ecs::SpriteRendererSystem>();
-		// RegisterSystem<abyss2d::ecs::RigidbodySystem>();
-		// RegisterSystem<abyss2d::ecs::TextRendererSystem>();
-		// RegisterSystem<abyss2d::ecs::FrameAnimationSystem>();
-		RegisterSystem<abyss2d::ecs::TileMapRendererSystem>();
+		for (auto& s : _systems)
+		{
+			ABYSS_DELETE(s)
+		}
+
+		_ecsRegistry.Clear();
+		// _assetRegistry.Clear();
+		_systems.clear();
+	}
+
+	ABYSS_INLINE abyss2d::ecs::Entity AddEntity(const std::string& name)
+	{
+		auto e = abyss2d::ecs::Entity(&_ecsRegistry);
+		e.AddComponent<abyss2d::ecs::InfoComponent>().name = name;
+		e.AddComponent<abyss2d::ecs::TransformComponent>();
+		return e;
+	}
+
+	template <typename T>
+	void RegisterSystem()
+	{
+		ABYSS_STATIC_ASSERT(std::is_base_of_v<abyss2d::ecs::EcsSystem, T>);
+		auto newSystem = new T();
+		newSystem->Prepare(&_ecsRegistry, _renderer, &_assetRegistry);
+		_systems.push_back(newSystem);
 	}
 
 	void Start() override
 	{
+		RegisterSystem<abyss2d::ecs::SpriteRendererSystem>();
+		RegisterSystem<abyss2d::ecs::RigidbodySystem>();
+		// RegisterSystem<abyss2d::ecs::TextRendererSystem>();
+		// RegisterSystem<abyss2d::ecs::FrameAnimationSystem>();
+		// RegisterSystem<abyss2d::ecs::TileMapRendererSystem>();
+
 		// auto e = AddEntity("Test");
 		// e.AddComponent<abyss2d::ecs::TransformComponent>();
 		// const auto frame1 = _assetRegistry.Add<abyss2d::TextureAsset>("frame1");
@@ -70,52 +105,59 @@ struct TestScene : abyss2d::ecs::Scene
 		// a.animation = animation->id;
 		// ------------------------------------
 
-		auto tsTexture = _assetRegistry.LoadTexture("Assets/SpaceCaveTileset.png", "", _renderer);
-
-		auto tileMap = _assetRegistry.Add<abyss2d::TileMapAsset>("TileMapAsset");
-		tileMap->instance.tileSets.insert(tsTexture->id);
-		tileMap->instance.columnCount = 12;
-		tileMap->instance.rowCount = 11;
-		tileMap->instance.tileSize = 16;
-
-		AddEntity("TileMap").AddComponent<abyss2d::ecs::TileMapComponent>().tileMap = tileMap->id;
-
-		for (int column = 0; column < tileMap->instance.columnCount; column++)
-		{
-			for (int row = 0; row < tileMap->instance.rowCount; row++)
-			{
-				auto e = AddEntity("tile");
-				auto& tile = e.AddComponent<abyss2d::ecs::TileComponent>();
-				tile.tileSet = tsTexture->id;
-				tile.tileMap = tileMap->id;
-				tile.offset_x = column;
-				tile.offset_y = row;
-				tile.row = column;
-				tile.col = row;
-			}
-		}
-
-		// auto sprite = _assetRegistry.LoadTexture("Assets/LifeIcon.png", "", _renderer);
+		// auto tsTexture = _assetRegistry.LoadTexture("Assets/SpaceCaveTileset.png", "", _renderer);
 		//
-		// auto e = AddEntity("Rigidbody");
-		// e.AddComponent<abyss2d::ecs::SpriteComponent>().sprite = sprite->id;
-		// auto& rb = e.AddComponent<abyss2d::ecs::RigidbodyComponent>();
-		// rb.bodyDef.type = dynamicBody;
-		// rb.body = _b2World->CreateBody(&rb.bodyDef);
-		// rb.shape.SetAsBox(36.0f, 36.0f);
-		// rb.fixtureDef.shape = &rb.shape;
-		// rb.fixtureDef.density = 1.0f;
-		// rb.fixtureDef.friction = 0.3f;
-		// rb.body->CreateFixture(&rb.fixtureDef);
-		// rb.debugBoundingBoxDisabled = false;
+		// auto tileMap = _assetRegistry.Add<abyss2d::TileMapAsset>("TileMapAsset");
+		// tileMap->instance.tileSets.insert(tsTexture->id);
+		// tileMap->instance.columnCount = 12;
+		// tileMap->instance.rowCount = 11;
+		// tileMap->instance.tileSize = 16;
+		//
+		// AddEntity("TileMap").AddComponent<abyss2d::ecs::TileMapComponent>().tileMap = tileMap->id;
+		//
+		// for (int column = 0; column < tileMap->instance.columnCount; column++)
+		// {
+		// 	for (int row = 0; row < tileMap->instance.rowCount; row++)
+		// 	{
+		// 		auto e = AddEntity("tile");
+		// 		auto& tile = e.AddComponent<abyss2d::ecs::TileComponent>();
+		// 		tile.tileSet = tsTexture->id;
+		// 		tile.tileMap = tileMap->id;
+		// 		tile.offset_x = column;
+		// 		tile.offset_y = row;
+		// 		tile.row = column;
+		// 		tile.col = row;
+		// 	}
+		// }
 
-		// colliderBound.colliderRect.h = 50.0f;
-		// colliderBound.colliderRect.w = 50.0f;
+		auto sprite = _assetRegistry.LoadTexture("Assets/LifeIcon.png", "", _renderer);
+
+		auto e = AddEntity("Rigidbody");
+		e.AddComponent<abyss2d::ecs::SpriteComponent>().sprite = sprite->id;
+		auto& rb = e.AddComponent<abyss2d::ecs::RigidbodyComponent>();
+		rb.boundingBoxEnabled = true;
 
 		for (const auto& s : _systems)
 		{
 			s->Start();
 		}
+	}
+
+	void Update(const float dt) override
+	{
+		// SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
+		for (auto& s : _systems)
+		{
+			s->Update(dt);
+		}
+
+		SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
+		for (auto& e : _ecsRegistry.View<abyss2d::ecs::RigidbodyComponent>())
+		{
+			auto& rb = _ecsRegistry.GetComponent<abyss2d::ecs::RigidbodyComponent>(e);
+			SDL_RenderDrawRectF(_renderer, &rb.boundingBox);
+		}
+		SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 	}
 };
 
